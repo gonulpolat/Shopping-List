@@ -43,6 +43,9 @@ function createListItem(item) {
   const div = document.createElement("div");
   div.textContent = item.name;
   div.classList.add("item-name");
+  div.addEventListener("click", openEditMode);
+  div.addEventListener("blur", closeEditMode);
+  div.addEventListener("keydown", cancelEnter);
 
   // delete icon
   const i = document.createElement("i");
@@ -94,4 +97,23 @@ function toggleCompleted(e) {
 function removeItem(e) {
   const li = e.target.parentElement;
   shoppingList.removeChild(li);
+}
+
+function openEditMode(e) {
+  const li = e.target.parentElement;
+
+  if (li.hasAttribute("item-completed") == false) {
+    e.target.contentEditable = true;
+  }
+}
+
+function closeEditMode(e) {
+  e.target.contentEditable = false;
+}
+
+function cancelEnter(e) {
+  if (e.key == "Enter") {
+    e.preventDefault();
+    closeEditMode(e);
+  }
 }
