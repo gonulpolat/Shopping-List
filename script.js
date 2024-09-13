@@ -12,6 +12,7 @@
 const shoppingList = document.querySelector(".shopping-list");
 const shoppingForm = document.querySelector(".shopping-form");
 const filterButtons = document.querySelectorAll(".filter-buttons button");
+const clearBtn = document.querySelector(".clear");
 
 document.addEventListener("DOMContentLoaded", function () {
   loadItems();
@@ -20,6 +21,8 @@ document.addEventListener("DOMContentLoaded", function () {
   for (let button of filterButtons) {
     button.addEventListener("click", handleFilterSelection);
   }
+
+  clearBtn.addEventListener("click", clear);
 });
 
 function saveToLS() {
@@ -192,4 +195,9 @@ function updateFilteredItems() {
   const activeFilter = document.querySelector(".btn-primary[item-filter]");
 
   filterItems(activeFilter.getAttribute("item-filter"));
+}
+
+function clear(e) {
+  shoppingList.innerHTML = "";
+  localStorage.clear("shoppingItems");
 }
