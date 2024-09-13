@@ -28,7 +28,7 @@ function loadItems() {
 function createListItem(item) {
   // li
   const li = document.createElement("li");
-  li.className = "border rounded p-3 mb-3";
+  li.className = "border rounded p-2 mb-3";
   li.toggleAttribute("item-completed", item.completed);
 
   // checkbox
@@ -46,6 +46,7 @@ function createListItem(item) {
   // delete icon
   const i = document.createElement("i");
   i.className = "bi bi-x fs-3 text-danger delete-icon";
+  i.addEventListener("click", removeItem);
 
   li.appendChild(input);
   li.appendChild(div);
@@ -87,4 +88,9 @@ function generateId() {
 function toggleCompleted(e) {
   const li = e.target.parentElement;
   li.toggleAttribute("item-completed", e.target.checked);
+}
+
+function removeItem(e) {
+  const li = e.target.parentElement;
+  shoppingList.removeChild(li);
 }
