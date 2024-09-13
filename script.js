@@ -1,12 +1,6 @@
-{
-  /* <li class="border rounded p-3 mb-3">
-          <input type="checkbox" name="" id="" class="form-check-input" />
-          <div class="item-name">item</div>
-          <i class="bi bi-x fs-3 text-danger delete-icon"></i>
-        </li> */
-}
-
 const shoppingList = document.querySelector(".shopping-list");
+
+loadItems();
 
 function loadItems() {
   const items = [
@@ -23,14 +17,34 @@ function loadItems() {
   shoppingList.innerHTML = "";
 
   for (let item of items) {
-    shoppingList.innerHTML += `
-        <li class="border rounded p-3 mb-3">
-          <input type="checkbox" name="" id="" class="form-check-input" />
-          <div class="item-name">${item.name}</div>
-          <i class="bi bi-x fs-3 text-danger delete-icon"></i>
-        </li>
-    `;
+    const li = createListItem(item);
+    shoppingList.appendChild(li);
   }
 }
 
-loadItems();
+function createListItem(item) {
+  // li
+  const li = document.createElement("li");
+  li.className = "border rounded p-3 mb-3";
+
+  // checkbox
+  const input = document.createElement("input");
+  input.type = "checkbox";
+  input.checked = item.completed;
+  input.classList.add("form-check-input");
+
+  // item
+  const div = document.createElement("div");
+  div.textContent = item.name;
+  div.classList.add("item-name");
+
+  // delete icon
+  const i = document.createElement("i");
+  i.className = "bi bi-x fs-3 text-danger delete-icon";
+
+  li.appendChild(input);
+  li.appendChild(div);
+  li.appendChild(i);
+
+  return li;
+}
