@@ -29,12 +29,14 @@ function createListItem(item) {
   // li
   const li = document.createElement("li");
   li.className = "border rounded p-3 mb-3";
+  li.toggleAttribute("item-completed", item.completed);
 
   // checkbox
   const input = document.createElement("input");
   input.type = "checkbox";
   input.checked = item.completed;
   input.classList.add("form-check-input");
+  input.addEventListener("change", toggleCompleted);
 
   // item
   const div = document.createElement("div");
@@ -80,4 +82,9 @@ function addItem(input) {
 
 function generateId() {
   return Date.now().toString();
+}
+
+function toggleCompleted(e) {
+  const li = e.target.parentElement;
+  li.toggleAttribute("item-completed", e.target.checked);
 }
