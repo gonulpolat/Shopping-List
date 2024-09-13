@@ -1,3 +1,14 @@
+// [
+//   { id: 1, name: "Krema", completed: false },
+//   { id: 2, name: "Un", completed: false },
+//   { id: 3, name: "Nişasta", completed: true },
+//   { id: 4, name: "Süt", completed: false },
+//   { id: 5, name: "Yumurta", completed: false },
+//   { id: 6, name: "Çikolata", completed: true },
+//   { id: 7, name: "Şeker", completed: false },
+//   { id: 8, name: "Vanilya", completed: false },
+// ];
+
 const shoppingList = document.querySelector(".shopping-list");
 const shoppingForm = document.querySelector(".shopping-form");
 const filterButtons = document.querySelectorAll(".filter-buttons button");
@@ -11,18 +22,23 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-function loadItems() {
-  const items = [
-    { id: 1, name: "Krema", completed: false },
-    { id: 2, name: "Un", completed: false },
-    { id: 3, name: "Nişasta", completed: true },
-    { id: 4, name: "Süt", completed: false },
-    { id: 5, name: "Yumurta", completed: false },
-    { id: 6, name: "Çikolata", completed: true },
-    { id: 7, name: "Şeker", completed: false },
-    { id: 8, name: "Vanilya", completed: false },
-  ];
+function saveToLS() {
+  const listItems = shoppingList.querySelectorAll("li");
+  const liste = [];
 
+  for (let li of listItems) {
+    const id = li.getAttribute("item-id");
+    const name = li.querySelector(".item-name").textContent;
+    const completed = li.hasAttribute("item-completed");
+
+    liste.push(id, name, completed);
+  }
+
+  localStorage.setItem("shoppingItems", JSON.stringify(liste));
+}
+
+function loadItems() {
+  const items = JSON.parse(localStorage.getItem("shoppingItems")) || [];
   shoppingList.innerHTML = "";
 
   for (let item of items) {
@@ -36,6 +52,7 @@ function createListItem(item) {
   const li = document.createElement("li");
   li.className = "border rounded p-2 mb-3";
   li.toggleAttribute("item-completed", item.completed);
+  li.setAttribute("item-id", item.id);
 
   // checkbox
   const input = document.createElement("input");
@@ -90,6 +107,8 @@ function addItem(input) {
   input.value = "";
 
   updateFilteredItems();
+
+  saveToLS();
 }
 
 function generateId() {
@@ -101,11 +120,15 @@ function toggleCompleted(e) {
   li.toggleAttribute("item-completed", e.target.checked);
 
   updateFilteredItems();
+
+  saveToLS();
 }
 
 function removeItem(e) {
   const li = e.target.parentElement;
   shoppingList.removeChild(li);
+
+  saveToLS();
 }
 
 function openEditMode(e) {
@@ -118,6 +141,8 @@ function openEditMode(e) {
 
 function closeEditMode(e) {
   e.target.contentEditable = false;
+
+  saveToLS();
 }
 
 function cancelEnter(e) {
