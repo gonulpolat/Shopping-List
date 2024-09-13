@@ -1,6 +1,9 @@
 const shoppingList = document.querySelector(".shopping-list");
+const shoppingForm = document.querySelector(".shopping-form");
 
 loadItems();
+
+shoppingForm.addEventListener("submit", handleFormSubmit);
 
 function loadItems() {
   const items = [
@@ -47,4 +50,34 @@ function createListItem(item) {
   li.appendChild(i);
 
   return li;
+}
+
+function handleFormSubmit(e) {
+  e.preventDefault();
+
+  const input = document.getElementById("item_name");
+
+  if (input.value.trim().length === 0) {
+    alert("Eleman eklemek için bir değer girmelisiniz.");
+    return;
+  }
+
+  addItem(input);
+}
+
+function addItem(input) {
+  const id = generateId();
+  const newItem = createListItem({
+    id: id,
+    name: input.value,
+    completed: false,
+  });
+
+  shoppingList.appendChild(newItem);
+
+  input.value = "";
+}
+
+function generateId() {
+  return Date.now().toString();
 }
