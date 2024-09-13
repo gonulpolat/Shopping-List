@@ -1,9 +1,10 @@
 const shoppingList = document.querySelector(".shopping-list");
 const shoppingForm = document.querySelector(".shopping-form");
 
-loadItems();
-
-shoppingForm.addEventListener("submit", handleFormSubmit);
+document.addEventListener("DOMContentLoaded", function () {
+  loadItems();
+  shoppingForm.addEventListener("submit", handleFormSubmit);
+});
 
 function loadItems() {
   const items = [
