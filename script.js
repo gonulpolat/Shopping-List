@@ -16,6 +16,9 @@ const clearBtn = document.querySelector(".clear");
 
 document.addEventListener("DOMContentLoaded", function () {
   loadItems();
+
+  updateState();
+
   shoppingForm.addEventListener("submit", handleFormSubmit);
 
   for (let button of filterButtons) {
@@ -112,6 +115,8 @@ function addItem(input) {
   updateFilteredItems();
 
   saveToLS();
+
+  updateState();
 }
 
 function generateId() {
@@ -132,6 +137,8 @@ function removeItem(e) {
   shoppingList.removeChild(li);
 
   saveToLS();
+
+  updateState();
 }
 
 function openEditMode(e) {
@@ -200,4 +207,16 @@ function updateFilteredItems() {
 function clear(e) {
   shoppingList.innerHTML = "";
   localStorage.clear("shoppingItems");
+
+  updateState();
+}
+
+function updateState() {
+  const isEmpty = shoppingList.querySelectorAll("li").length === 0;
+  const alert = document.querySelector(".alert");
+  const filterBtns = document.querySelector(".filter-buttons");
+
+  alert.classList.toggle("d-none", !isEmpty);
+  clearBtn.classList.toggle("d-none", isEmpty);
+  filterBtns.classList.toggle("d-none", isEmpty);
 }
